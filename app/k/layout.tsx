@@ -28,13 +28,13 @@ export default function layout({ children }: { children: React.ReactNode }) {
             <div className="collapse navbar-collapse" id="sidebar-menu">
               <ul className="navbar-nav pt-lg-3">
                 <li className="nav-item">
-                  <a className="nav-link" href="./">
+                  <a className="nav-link" href="./dashboard">
                     <span className="nav-link-title">Home</span>
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span className="nav-link-title">Link 1</span>
+                  <a className="nav-link" href="/k/mahasiswa">
+                    <span className="nav-link-title">Mahasiswa</span>
                   </a>
                 </li>
                 <li className="nav-item">

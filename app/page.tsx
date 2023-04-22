@@ -1,9 +1,10 @@
 /** @format */
+import Karu from "./components/Karu";
 
 export default function Home() {
   return (
     <>
-      <h1>aku kamu</h1>
+      <Karu />
     </>
   );
 }
