@@ -2,7 +2,6 @@
 
 import React from "react";
 import Atas from "../components/Atas";
-import "./main.css";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,10 +36,23 @@ export default function layout({ children }: { children: React.ReactNode }) {
                     <span className="nav-link-title">Mahasiswa</span>
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <span className="nav-link-title">Link 2</span>
+                <li className="nav-item dropdown">
+                  <a
+                    href="#"
+                    className="nav-link dropdown-toggle show disabled"
+                    data-bs-toggle="dropdown"
+                    role="button"
+                  >
+                    Setting
                   </a>
+                  <div className="dropdown-menu show">
+                    <a className="dropdown-item" href="/k/setting/admin">
+                      Admin Role
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      Profile
+                    </a>
+                  </div>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">

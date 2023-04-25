@@ -1,8 +1,5 @@
-/* eslint-disable react/no-direct-mutation-state */
 /** @format */
 
-import Atas from "@/app/components/Atas";
-import Side from "@/app/components/Side";
 import React from "react";
 
 const Dashboard = () => {
@@ -13,12 +10,10 @@ const Dashboard = () => {
           <div className="col ">
             <div className="card">
               <div className="card-body">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-                  ullam nihil maxime soluta vitae in eaque magnam, laudantium
-                  temporibus excepturi saepe quia itaque necessitatibus amet
-                  reiciendis iusto sit officia? Quas.
-                </p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
+                odit doloremque voluptate nemo magnam quibusdam mollitia ullam
+                amet explicabo, est officia saepe, velit cumque, tenetur quos
+                non sunt reprehenderit libero?
               </div>
             </div>
           </div>

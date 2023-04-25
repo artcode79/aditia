@@ -46,6 +46,10 @@ export default function RootLayout({
           async
           src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"
         ></script>
+        <script
+          src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/apexcharts/dist/apexcharts.min.js"
+          defer
+        ></script>
       </body>
     </html>
   );

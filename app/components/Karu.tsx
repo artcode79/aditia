@@ -1,4 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
+/**
+ * eslint-disable @next/next/no-img-element
+ *
+ * @format
+ */
+
 import React from "react";
 
 import Link from "next/link";
@@ -14,9 +19,9 @@ export default function Karu() {
             like the one in previous versions of Bootstrap. Check out the
             examples below for how you can remix and restyle it to your liking.
           </p>
-          <button className="btn btn-primary btn-lg" type="button">
-            Example button
-          </button>
+          <Link href="/k/dashboard" className="btn btn-primary btn-lg">
+            Go To
+          </Link>
         </div>
       </div>
     </>
