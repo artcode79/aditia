@@ -16,4 +16,8 @@ model Mahasiswa {
   nik     Int    @unique
   alamat  String
   jurusan String
+  ttlahir String
+  email   String
+  kota    String
+  kodepos Int
 }

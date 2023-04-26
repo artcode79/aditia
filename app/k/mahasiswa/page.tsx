@@ -4,21 +4,20 @@ import React from "react";
 import Link from "next/link";
 
 export async function getStaticProps() {
-  const res = await fetch(process.env.BASE_URL + "maha", {
+  const res = await fetch(process.env.BASE_URL + "Maha", {
     next: { revalidate: 0 },
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   })
-    .then((res) => res.json())
-    .then((json) => console.log(json));
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
   return res;
 }
 
 export default async function Mahasiswa() {
   const mahasiswa = await getStaticProps();
-  console.log(mahasiswa);
 
   return (
     <>
@@ -38,26 +37,28 @@ export default async function Mahasiswa() {
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td> John Doe</td>
-                <td>System Architect</td>
-                <td>poipkl;lk</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td>
-                  <Link
-                    href="/k/mahasiswa/edit"
-                    className="btn btn-outline-primary mx-1"
-                  >
-                    edit
-                  </Link>
-                  <Link href="/#" className="btn btn-outline-danger">
-                    delete
-                  </Link>
-                </td>
-              </tr>
-            </tbody>
+            {mahasiswa?.mahasiswa?.map((maha: any, index: number) => (
+              <tbody key={index}>
+                <tr>
+                  <td> {maha.nama}</td>
+                  <td>{maha.nik}</td>
+                  <td>{maha.alamat}</td>
+                  <td>{maha.jurusan}</td>
+                  <td>2011/04/25</td>
+                  <td>
+                    <Link
+                      href="/k/mahasiswa/edit"
+                      className="btn btn-outline-primary mx-1"
+                    >
+                      edit
+                    </Link>
+                    <Link href="/#" className="btn btn-outline-danger">
+                      delete
+                    </Link>
+                  </td>
+                </tr>
+              </tbody>
+            ))}
           </table>
         </div>
       </div>
