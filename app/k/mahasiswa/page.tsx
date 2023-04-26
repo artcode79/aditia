@@ -3,7 +3,23 @@
 import React from "react";
 import Link from "next/link";
 
-export default function Mahasiswa() {
+export async function getStaticProps() {
+  const res = await fetch(process.env.BASE_URL + "maha", {
+    next: { revalidate: 0 },
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+  return res;
+}
+
+export default async function Mahasiswa() {
+  const mahasiswa = await getStaticProps();
+  console.log(mahasiswa);
+
   return (
     <>
       <div className="container">
@@ -24,7 +40,7 @@ export default function Mahasiswa() {
             </thead>
             <tbody>
               <tr>
-                <td>Tiger Nixon</td>
+                <td> John Doe</td>
                 <td>System Architect</td>
                 <td>poipkl;lk</td>
                 <td>61</td>
@@ -36,10 +52,7 @@ export default function Mahasiswa() {
                   >
                     edit
                   </Link>
-                  <Link
-                    href="/k/mahasiswa/delete"
-                    className="btn btn-outline-danger"
-                  >
+                  <Link href="/#" className="btn btn-outline-danger">
                     delete
                   </Link>
                 </td>

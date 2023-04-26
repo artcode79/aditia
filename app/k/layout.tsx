@@ -27,7 +27,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
             <div className="collapse navbar-collapse" id="sidebar-menu">
               <ul className="navbar-nav pt-lg-3">
                 <li className="nav-item">
-                  <a className="nav-link" href="./dashboard">
+                  <a className="nav-link" href="/k/dashboard">
                     <span className="nav-link-title">Home</span>
                   </a>
                 </li>
@@ -49,7 +49,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
                     <a className="dropdown-item" href="/k/setting/admin">
                       Admin Role
                     </a>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="/k/setting/profile">
                       Profile
                     </a>
                   </div>
@@ -79,6 +79,16 @@ export default function layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </div>
+      <script
+        async
+        src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"
+      ></script>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.js" async></script>
+      <script
+        src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"
+        async
+      ></script>
     </>
   );
 }
