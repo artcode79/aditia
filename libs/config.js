@@ -1,15 +1,16 @@
 /** @format */
-
+// Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyAaFyXcnWyAYYSRLjIxdBMjpXRTe0PxArw",
+  authDomain: "cobareact-ccc6d.firebaseapp.com",
+  databaseURL:
+    "https://cobareact-ccc6d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "cobareact-ccc6d",
+  storageBucket: "cobareact-ccc6d.appspot.com",
+  messagingSenderId: "502927789480",
+  appId: "1:502927789480:web:fa12bffa1a793ca7e4619d",
 };
 
 // Initialize Firebase

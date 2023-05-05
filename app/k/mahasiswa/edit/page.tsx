@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 
-export default function Edit() {
+const Edit = () => {
   return (
     <>
       <form className="row g-3">
@@ -73,4 +73,5 @@ export default function Edit() {
       </form>
     </>
   );
-}
+};
+export default Edit;

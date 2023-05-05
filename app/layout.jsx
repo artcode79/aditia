@@ -4,11 +4,7 @@ import "./globals.css";
 
 import "bootstrap/dist/css/bootstrap.css";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
@@ -19,7 +15,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <main>{children}</main>
+
         <script
           async
           src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.min.js"

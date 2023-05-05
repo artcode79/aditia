@@ -29,7 +29,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/teh.js",
-    "app/teh.js"
+    "app/teh.js",
+    "app/layout.jsx",
+    "app/k/mahasiswa/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

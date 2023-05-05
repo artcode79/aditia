@@ -2,51 +2,49 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import firebase_app from "@/libs/config";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import React, { useState } from "react";
 
-export default function Add() {
+const db = getFirestore(firebase_app);
+
+const Add = async () => {
   const [nama, setNama] = useState("");
   const [jurusan, setJurusan] = useState("");
   const [alamat, setAlamat] = useState("");
-  const [ttlahir, setTtlahir] = useState("");
-  const [nik, setNik] = useState("");
+  const [tanggal, setTanggal] = useState("");
+  const [ktp, setKtp] = useState("");
   const [email, setEmail] = useState("");
+  const [nohp, setNohp] = useState("");
   const [kota, setKota] = useState("");
-  const [kodepos, setKodepos] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [provinsi, setProvinsi] = useState("");
+  const [kode_pos, setKode_pos] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    setIsLoading(true);
-
-    await fetch("api/Maha", {
-      method: "POST",
-      headers: {
-        "Content-Type": " application/json",
-      },
-      body: JSON.stringify({
-        nama,
-        jurusan,
-        alamat,
-        ttlahir,
-        nik,
-        email,
-        kota,
-        kodepos,
-      }),
+  const handleSubmit = async (e) => {
+    const docRef = await addDoc(collection(db, "mahasiswa"), {
+      nama: nama,
+      jurusan: jurusan,
+      alamat: alamat,
+      tanggal: tanggal,
+      ktp: ktp,
+      email: email,
+      nohp: nohp,
+      kota: kota,
+      provinsi: provinsi,
+      kode_pos: kode_pos,
     })
-      .then((res) => {
-        console.log(res);
+      .then((e) => {
+        if (e) {
+          return console.log(e);
+        }
       })
       .catch((e) => {
-        console.log(e);
+        console.log("Document written with ID: ", docRef.id, e);
       });
+    e.preventDefault();
 
-    setIsLoading(false);
-    router.push("/k/mahasiswa");
+    router.push("/mahasiswa");
   };
   return (
     <>
@@ -83,9 +81,9 @@ export default function Add() {
             type="text"
             className="form-control"
             id="inputAddress"
+            placeholder="1234 Main St"
             value={alamat}
             onChange={(e) => setAlamat(e.target.value)}
-            placeholder="1234 Main St"
           />
         </div>
         <div className="col-12">
@@ -96,30 +94,30 @@ export default function Add() {
             type="date"
             className="form-control"
             id="inputAddress2"
-            value={ttlahir}
-            onChange={(e) => setTtlahir(e.target.value)}
+            value={tanggal}
+            onChange={(e) => setTanggal(e.target.value)}
           />
         </div>
         <div className="col-12">
-          <label htmlFor="inputAddress2" className="form-label">
+          <label htmlFor="inputAddress28" className="form-label">
             No KTP
           </label>
           <input
             type="number"
             className="form-control"
-            id="inputAddress2"
-            value={nik}
-            onChange={(e) => setNik(e.target.value)}
+            id="inputAddress28"
+            value={ktp}
+            onChange={(e) => setKtp(e.target.value)}
           />
         </div>
         <div className="col-12">
-          <label htmlFor="inputAddress2" className="form-label">
+          <label htmlFor="inputAddress21" className="form-label">
             Email
           </label>
           <input
             type="email"
             className="form-control"
-            id="inputAddress2"
+            id="inputAddress21"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -136,6 +134,18 @@ export default function Add() {
             onChange={(e) => setKota(e.target.value)}
           />
         </div>
+        <div className="col-md-6">
+          <label htmlFor="provinsi" className="form-label">
+            Provinsi
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="provinsi"
+            value={provinsi}
+            onChange={(e) => setProvinsi(e.target.value)}
+          />
+        </div>
 
         <div className="col-md-2">
           <label htmlFor="inputZip" className="form-label">
@@ -145,18 +155,26 @@ export default function Add() {
             type="number"
             className="form-control"
             id="inputZip"
-            value={kodepos}
-            onChange={(e) => setKodepos(e.target.value)}
+            value={kode_pos}
+            onChange={(e) => setKode_pos(e.target.value)}
+          />
+        </div>
+        <div className="col-md-2">
+          <label htmlFor="inputZip" className="form-label">
+            No. Hp
+          </label>
+          <input
+            type="number"
+            className="form-control"
+            id="inputZip"
+            value={nohp}
+            onChange={(e) => setNohp(e.target.value)}
           />
         </div>
 
         <div className="col-12">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isLoading}
-          >
-            {isLoading ? "Loading..." : "Add Mahasiswa"}
+          <button type="submit" className="btn btn-primary">
+            Add mahasiswa
           </button>
           <Link href="/k/mahasiswa" className="btn btn-outline-warning mx-3">
             Back
@@ -165,4 +183,6 @@ export default function Add() {
       </form>
     </>
   );
-}
+};
+
+export default Add;

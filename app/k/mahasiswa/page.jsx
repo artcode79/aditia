@@ -2,22 +2,21 @@
 
 import React from "react";
 import Link from "next/link";
+import firebase_app from "../../../libs/config";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
-export async function getStaticProps() {
-  const res = await fetch(process.env.BASE_URL + "Maha", {
-    next: { revalidate: 0 },
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .catch((error) => console.log(error));
-  return res;
-}
+const db = getFirestore(firebase_app);
+const getMahasiswa = async () => {
+  const querySnapshot = await getDocs(collection(db, "mahasiswa"));
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+};
 
 export default async function Mahasiswa() {
-  const mahasiswa = await getStaticProps();
+  const mahasiswa = await getMahasiswa();
+  console.log(mahasiswa);
 
   return (
     <>
@@ -37,8 +36,8 @@ export default async function Mahasiswa() {
                 <th></th>
               </tr>
             </thead>
-            {mahasiswa?.mahasiswa?.map((maha: any, index: number) => (
-              <tbody key={index}>
+            {mahasiswa?.map((maha, id) => (
+              <tbody key={id}>
                 <tr>
                   <td> {maha.nama}</td>
                   <td>{maha.nik}</td>

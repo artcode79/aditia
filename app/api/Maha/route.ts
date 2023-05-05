@@ -11,20 +11,40 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = async (req: NextRequest) => {
-  const { nama, jurusan, alamat, ttlahir, nik, email, kota, kodepos } =
-    await req.json();
-  const mahasiswa = await prisma.mahasiswa.create({
-    data: {
-      nama,
-      jurusan,
-      alamat,
-      ttlahir,
-      nik,
-      email,
-      kota,
-      kodepos,
-    },
-  });
+  const {
+    nama,
+    jurusan,
+    alamat,
+    tanggal,
+    no_ktp,
+    email,
+    kota,
+    provinsi,
+    kode_pos,
+    no_hp,
+  } = await req.json();
+
+  const mahasiswa = await prisma.mahasiswa
+    .create({
+      data: {
+        nama,
+        jurusan,
+        alamat,
+        tanggal,
+        no_ktp,
+        email,
+        kota,
+        provinsi,
+        kode_pos,
+        no_hp,
+      },
+    })
+    .then(() => {
+      console.log("berhasil");
+    })
+    .catch((e: any) => {
+      console.log(e);
+    });
 
   return NextResponse.json({ mahasiswa });
 };
