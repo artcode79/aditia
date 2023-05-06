@@ -31,7 +31,8 @@
     "app/teh.js",
     "app/teh.js",
     "app/layout.jsx",
-    "app/k/mahasiswa/page.jsx"
+    "app/k/mahasiswa/page.jsx",
+    "app/k/mahasiswa/add/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

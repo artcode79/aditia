@@ -1,27 +1,35 @@
-/** @format */
-
-import React from "react";
+/**
+ * eslint-disable react-hooks/rules-of-hooks
+ *
+ * @format
+ */
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import firebase_app from "../../../libs/config";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
 
-const db = getFirestore(firebase_app);
-const getMahasiswa = async () => {
-  const querySnapshot = await getDocs(collection(db, "mahasiswa"));
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
+const Mahasiswa = () => {
+  const [mahasiswa, setMahasiswa] = useState([]);
+  const [databaseId, setDatabaseId] = useState([]);
+
+  useEffect(() => {
+    getMahasiswa().then((data) => {
+      setMahasiswa(data[0]);
+      setDatabaseId(data[1]);
+    });
   });
-};
 
-export default async function Mahasiswa() {
-  const mahasiswa = await getMahasiswa();
   console.log(mahasiswa);
+  console.log(databaseId);
+  const getMahasiswa = async () => {
+    const res = await fetch(" http://localhost:3000/api/Maha");
+    const data = await res.json();
+    return data;
+  };
 
   return (
     <>
       <div className="container">
-        <Link href="/k/mahasiswa/add" className="btn btn-primary">
+        <Link href="/k/mahasiswa/add" className="btn btn-info text-white">
           add
         </Link>
         <div className="card mt-3 shadow">
@@ -36,31 +44,38 @@ export default async function Mahasiswa() {
                 <th></th>
               </tr>
             </thead>
-            {mahasiswa?.map((maha, id) => (
-              <tbody key={id}>
-                <tr>
+            <tbody>
+              {mahasiswa?.map((maha, id) => (
+                <tr key={id}>
                   <td> {maha.nama}</td>
-                  <td>{maha.nik}</td>
+                  <td>{maha.ktp}</td>
                   <td>{maha.alamat}</td>
                   <td>{maha.jurusan}</td>
                   <td>2011/04/25</td>
                   <td>
                     <Link
-                      href="/k/mahasiswa/edit"
+                      href="/k/mahasiswa/:id/edit"
                       className="btn btn-outline-primary mx-1"
                     >
                       edit
                     </Link>
-                    <Link href="/#" className="btn btn-outline-danger">
+                    <Link
+                      href="/k/mahasiswa/show/:id"
+                      className="btn btn-outline-info mx-1"
+                    >
+                      Show
+                    </Link>
+                    <Link href="#" className="btn btn-outline-danger">
                       delete
                     </Link>
                   </td>
                 </tr>
-              </tbody>
-            ))}
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
     </>
   );
-}
+};
+export default Mahasiswa;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Edit = () => {
+const Edit = ({ params }: { params: any }) => {
   return (
     <>
       <form className="row g-3">

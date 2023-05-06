@@ -22,6 +22,7 @@ const Add = async () => {
   const router = useRouter();
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const docRef = await addDoc(collection(db, "mahasiswa"), {
       nama: nama,
       jurusan: jurusan,
@@ -42,9 +43,8 @@ const Add = async () => {
       .catch((e) => {
         console.log("Document written with ID: ", docRef.id, e);
       });
-    e.preventDefault();
 
-    router.push("/mahasiswa");
+    router.push("/k/mahasiswa");
   };
   return (
     <>
