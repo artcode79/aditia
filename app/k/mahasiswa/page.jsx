@@ -5,25 +5,39 @@
  */
 "use client";
 import React, { useState, useEffect } from "react";
+import { firestore } from "../../../libs/config";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { IconTrash, IconEyeFilled, IconPencil } from "@tabler/icons-react";
+
+const deleteData = async (id) => {
+  await firestore
+    .collection("mahasiswa")
+    .doc(id)
+    .delete()
+    .then(() => {
+      console.log("Document successfully deleted!", "id", id);
+    })
+    .catch((error) => {
+      console.error("Error removing document: ", error);
+    });
+};
 
 const Mahasiswa = () => {
-  const [mahasiswa, setMahasiswa] = useState([]);
-  const [databaseId, setDatabaseId] = useState([]);
+  const [data, setData] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
-    getMahasiswa().then((data) => {
-      setMahasiswa(data[0]);
-      setDatabaseId(data[1]);
-    });
-  });
+    const fetchData = async () => {
+      const data = await firestore.collection("mahasiswa").get();
+      setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    fetchData();
+  }, []);
 
-  console.log(mahasiswa);
-  console.log(databaseId);
-  const getMahasiswa = async () => {
-    const res = await fetch(" http://localhost:3000/api/Maha");
-    const data = await res.json();
-    return data;
+  const dataDeleted = (id) => {
+    deleteData(id);
   };
 
   return (
@@ -36,37 +50,72 @@ const Mahasiswa = () => {
           <table id="example" className="table table-striped" width="100%">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Jurusan</th>
-                <th>No. Hp</th>
-                <th>Program</th>
-                <th>Status</th>
-                <th></th>
+                <th scope="col" className="text-center">
+                  No
+                </th>
+                <th scope="col" className="text-center">
+                  Name
+                </th>
+                <th scope="col" className="text-center">
+                  Jurusan
+                </th>
+                <th scope="col" className="text-center">
+                  No. Hp
+                </th>
+                <th scope="col" className="text-center">
+                  Program
+                </th>
+                <th scope="col" className="text-center">
+                  Status
+                </th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              {mahasiswa?.map((maha, id) => (
+              {data?.map((maha, id) => (
                 <tr key={id}>
-                  <td> {maha.nama}</td>
-                  <td>{maha.ktp}</td>
-                  <td>{maha.alamat}</td>
-                  <td>{maha.jurusan}</td>
-                  <td>2011/04/25</td>
-                  <td>
+                  <td className="text-center ">{id + 1}</td>
+                  <td className="text-center "> {maha.nama}</td>
+                  <td className="text-center ">{maha.ktp}</td>
+                  <td className="text-center ">{maha.no_hp}</td>
+                  <td className="text-center ">{maha.jurusan}</td>
+                  <td className="text-center ">2011/04/25</td>
+                  <td colspan="1" className="text-center" scope="row-2">
                     <Link
-                      href="/k/mahasiswa/:id/edit"
+                      href={`/k/mahasiswa/edit/${maha.id}`}
                       className="btn btn-outline-primary mx-1"
+                      style={{
+                        height: "30px",
+                        width: "30px",
+                        padding: 0,
+                        border: "none",
+                      }}
                     >
-                      edit
+                      <IconPencil />
                     </Link>
                     <Link
-                      href="/k/mahasiswa/show/:id"
+                      href={`/k/mahasiswa/show/${maha.id}`}
                       className="btn btn-outline-info mx-1"
+                      style={{
+                        height: "30px",
+                        width: "30px",
+                        padding: 0,
+                        border: "none",
+                      }}
                     >
-                      Show
+                      <IconEyeFilled />
                     </Link>
-                    <Link href="#" className="btn btn-outline-danger">
-                      delete
+                    <Link
+                      onClick={() => dataDeleted(maha.id)}
+                      className="btn btn-outline-danger"
+                      style={{
+                        height: "30px",
+                        width: "30px",
+                        padding: 0,
+                        border: "none",
+                      }}
+                    >
+                      <IconTrash />
                     </Link>
                   </td>
                 </tr>
@@ -75,7 +124,38 @@ const Mahasiswa = () => {
           </table>
         </div>
       </div>
+      {paginAtion()}
     </>
   );
+
+  function paginAtion() {
+    return (
+      <nav aria-label="...">
+        <ul className="pagination my-2 justify-content-center">
+          <li className="page-item disabled">
+            <span className="page-link">Previous</span>
+          </li>
+          <li className="page-item">
+            <a className="page-link" href="#">
+              1
+            </a>
+          </li>
+          <li className="page-item active" aria-current="page">
+            <span className="page-link">2</span>
+          </li>
+          <li className="page-item">
+            <a className="page-link" href="#">
+              3
+            </a>
+          </li>
+          <li className="page-item">
+            <a className="page-link" href="#">
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
+    );
+  }
 };
 export default Mahasiswa;

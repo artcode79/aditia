@@ -2,53 +2,42 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import firebase_app from "@/libs/config";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import { firestore } from "../../../../libs/config";
+import React from "react";
 
-const db = getFirestore(firebase_app);
-
-const Add = async () => {
-  const [nama, setNama] = useState("");
-  const [jurusan, setJurusan] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [tanggal, setTanggal] = useState("");
-  const [ktp, setKtp] = useState("");
-  const [email, setEmail] = useState("");
-  const [nohp, setNohp] = useState("");
-  const [kota, setKota] = useState("");
-  const [provinsi, setProvinsi] = useState("");
-  const [kode_pos, setKode_pos] = useState("");
+const Add = () => {
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const docRef = await addDoc(collection(db, "mahasiswa"), {
-      nama: nama,
-      jurusan: jurusan,
-      alamat: alamat,
-      tanggal: tanggal,
-      ktp: ktp,
-      email: email,
-      nohp: nohp,
-      kota: kota,
-      provinsi: provinsi,
-      kode_pos: kode_pos,
-    })
-      .then((e) => {
-        if (e) {
-          return console.log(e);
-        }
-      })
-      .catch((e) => {
-        console.log("Document written with ID: ", docRef.id, e);
-      });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
+    // Mengambil data dari form
+    const data = {
+      nama: event.target.nama.value,
+      ktp: parseInt(event.target.ktp.value),
+      jurusan: event.target.jurusan.value,
+      alamat: event.target.alamat.value,
+      tanggal: event.target.tanggal.value,
+      kota: event.target.kota.value,
+      provinsi: event.target.provinsi.value,
+      kode_pos: parseInt(event.target.kode_pos.value),
+      no_hp: parseInt(event.target.no_hp.value),
+
+      email: event.target.email.value,
+    };
+
+    // Menambahkan data ke Firestore
+    try {
+      const docRef = await firestore.collection("mahasiswa").add(data);
+      console.log("Data berhasil ditambahkan dengan ID:", docRef.id);
+    } catch (error) {
+      console.error("Error menambahkan data:", error);
+    }
     router.push("/k/mahasiswa");
   };
   return (
     <>
-      <form className="row g-3" onSubmit={handleSubmit}>
+      <form className="row g-3" method="POST" onSubmit={handleSubmit}>
         <div className="col-md-6">
           <label htmlFor="namalengkap" className="form-label">
             Nama Lengkap
@@ -57,8 +46,7 @@ const Add = async () => {
             type="text"
             className="form-control"
             id="namalengkap"
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
+            name="nama"
           />
         </div>
         <div className="col-md-6">
@@ -69,8 +57,7 @@ const Add = async () => {
             type="text"
             className="form-control"
             id="Jurusan"
-            value={jurusan}
-            onChange={(e) => setJurusan(e.target.value)}
+            name="jurusan"
           />
         </div>
         <div className="col-12">
@@ -82,8 +69,7 @@ const Add = async () => {
             className="form-control"
             id="inputAddress"
             placeholder="1234 Main St"
-            value={alamat}
-            onChange={(e) => setAlamat(e.target.value)}
+            name="alamat"
           />
         </div>
         <div className="col-12">
@@ -94,8 +80,7 @@ const Add = async () => {
             type="date"
             className="form-control"
             id="inputAddress2"
-            value={tanggal}
-            onChange={(e) => setTanggal(e.target.value)}
+            name="tanggal"
           />
         </div>
         <div className="col-12">
@@ -106,8 +91,7 @@ const Add = async () => {
             type="number"
             className="form-control"
             id="inputAddress28"
-            value={ktp}
-            onChange={(e) => setKtp(e.target.value)}
+            name="ktp"
           />
         </div>
         <div className="col-12">
@@ -118,8 +102,7 @@ const Add = async () => {
             type="email"
             className="form-control"
             id="inputAddress21"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
           />
         </div>
         <div className="col-md-6">
@@ -130,8 +113,7 @@ const Add = async () => {
             type="text"
             className="form-control"
             id="inputCity"
-            value={kota}
-            onChange={(e) => setKota(e.target.value)}
+            name="kota"
           />
         </div>
         <div className="col-md-6">
@@ -142,8 +124,7 @@ const Add = async () => {
             type="text"
             className="form-control"
             id="provinsi"
-            value={provinsi}
-            onChange={(e) => setProvinsi(e.target.value)}
+            name="provinsi"
           />
         </div>
 
@@ -155,8 +136,7 @@ const Add = async () => {
             type="number"
             className="form-control"
             id="inputZip"
-            value={kode_pos}
-            onChange={(e) => setKode_pos(e.target.value)}
+            name="kode_pos"
           />
         </div>
         <div className="col-md-2">
@@ -165,10 +145,9 @@ const Add = async () => {
           </label>
           <input
             type="number"
+            name="no_hp"
             className="form-control"
             id="inputZip"
-            value={nohp}
-            onChange={(e) => setNohp(e.target.value)}
           />
         </div>
 
