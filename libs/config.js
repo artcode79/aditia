@@ -19,8 +19,30 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+const fetchPaginatedData = async (collectionName, itemsPerPage, lastDoc) => {
+  let data = [];
+  let query = firestore.collection(collectionName).orderBy("nama", "asc");
+
+  if (lastDoc) {
+    query = query.startAfter(lastDoc);
+  }
+
+  const snapshot = await query.limit(itemsPerPage).get();
+
+  snapshot.forEach((doc) => {
+    data.push({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
+
+  const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+  return { data, lastVisible };
+};
+
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 
-export { firestore, auth };
+export { firestore, auth, fetchPaginatedData };
 export default firebase;

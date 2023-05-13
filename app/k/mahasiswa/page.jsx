@@ -5,10 +5,12 @@
  */
 "use client";
 import React, { useState, useEffect } from "react";
-import { firestore } from "../../../libs/config";
+import { firestore, fetchPaginatedData } from "../../../libs/config";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IconTrash, IconEyeFilled, IconPencil } from "@tabler/icons-react";
+
+const ITEMS_PER_PAGE = 10;
 
 const deleteData = async (id) => {
   await firestore
@@ -25,19 +27,43 @@ const deleteData = async (id) => {
 
 const Mahasiswa = () => {
   const [data, setData] = useState([]);
+  const [lastDoc, setLastDoc] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
 
   const router = useRouter();
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await firestore.collection("mahasiswa").get();
+  //     setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   };
+  //   fetchData();
+  // }, []);
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await firestore.collection("mahasiswa").get();
-      setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    const { data: fetchedData, lastVisible } = await fetchPaginatedData(
+      "mahasiswa",
+      ITEMS_PER_PAGE,
+      lastDoc
+    );
+
+    setData((prevData) => [...prevData, ...fetchedData]);
+    setLastDoc(lastVisible);
+    setLoading(false);
+    setHasMore(fetchedData.length === ITEMS_PER_PAGE);
+  };
+
+  const handleLoadMore = () => {
+    fetchData();
+  };
+
   const dataDeleted = (id) => {
     deleteData(id);
+    router.push("/k/mahasiswa");
   };
 
   return (
@@ -105,7 +131,7 @@ const Mahasiswa = () => {
                     >
                       <IconEyeFilled />
                     </Link>
-                    <Link
+                    <button
                       onClick={() => dataDeleted(maha.id)}
                       className="btn btn-outline-danger"
                       style={{
@@ -116,7 +142,7 @@ const Mahasiswa = () => {
                       }}
                     >
                       <IconTrash />
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -124,6 +150,14 @@ const Mahasiswa = () => {
           </table>
         </div>
       </div>
+      {loading && <div>Loading...</div>}
+      {hasMore && ( // <-- Show this button only if there are more pages available to show.
+        <li className="page-item">
+          <button className="page-link" onClick={handleLoadMore}>
+            Load More
+          </button>
+        </li>
+      )}
       {paginAtion()}
     </>
   );
