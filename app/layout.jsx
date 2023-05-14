@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
           content="ini adalah Sistem Informasi Akademik"
         />
       </head>
-      <body>
+      <body className="bg-light">
         <main>{children}</main>
 
         <script
