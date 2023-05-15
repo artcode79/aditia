@@ -1,7 +1,6 @@
 /** @format */
 
 import "./globals.css";
-
 import "bootstrap/dist/css/bootstrap.css";
 
 export default function RootLayout({ children }) {
@@ -14,6 +13,7 @@ export default function RootLayout({ children }) {
           content="ini adalah Sistem Informasi Akademik"
         />
       </head>
+
       <body className="bg-light">
         <main>{children}</main>
 

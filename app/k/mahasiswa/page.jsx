@@ -1,13 +1,14 @@
+/** @format */
+
 "use client";
 import React, { useState, useEffect } from "react";
-import { firestore, fetchPaginatedData } from "../../../libs/config";
+import { firestore } from "../../../libs/config";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IconTrash, IconEyeFilled, IconPencil } from "@tabler/icons-react";
 
-const ITEMS_PER_PAGE = 10;
-
-const deleteData = async (id) => {
+async function deleteData(id) {
   await firestore
     .collection("mahasiswa")
     .doc(id)
@@ -18,16 +19,14 @@ const deleteData = async (id) => {
     .catch((error) => {
       console.error("Error removing document: ", error);
     });
-};
+}
 
 const Mahasiswa = () => {
   const [mahasiswas, setMahasiswas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
-  const [mahasiswasPerPage, setMahasiswasPerPage] = useState(10);
-
   const router = useRouter();
+  const [mahasiswasPerPage, setMahasiswasPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,9 +68,8 @@ const Mahasiswa = () => {
     </li>
   ));
 
-  const dataDeleted = (id) => {
-    deleteData(id);
-    router.push("/k/mahasiswa");
+  const dataDeleted = async (id) => {
+    await deleteData(id);
   };
 
   return (
@@ -120,12 +118,19 @@ const Mahasiswa = () => {
                 <td className="text-center">
                   {id + 1 + indexOfFirstMahasiswa}
                 </td>
-                <td className="text-center "> {maha.nama}</td>
+                <td className="text-center ">
+                  <Link
+                    className="text-decoration-none text-dark"
+                    href={`/k/mahasiswa/show/${maha.id}`}
+                  >
+                    {maha.nama}
+                  </Link>
+                </td>
                 <td className="text-center ">{maha.ktp}</td>
                 <td className="text-center ">{maha.no_hp}</td>
                 <td className="text-center ">{maha.jurusan}</td>
                 <td className="text-center ">2011/04/25</td>
-                <td colspan="1" className="text-center" scope="row-2">
+                <td colSpan="1" className="text-center" scope="row-2">
                   <Link
                     href={`/k/mahasiswa/edit/${maha.id}`}
                     className="btn btn-outline-primary mx-1"
@@ -151,8 +156,10 @@ const Mahasiswa = () => {
                     <IconEyeFilled />
                   </Link>
                   <button
-                    onClick={() => dataDeleted(maha.id)}
+                    type="button"
                     className="btn btn-outline-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
                     style={{
                       height: "30px",
                       width: "30px",
@@ -162,6 +169,53 @@ const Mahasiswa = () => {
                   >
                     <IconTrash />
                   </button>
+                  {/* <!-- Modal --> */}
+                  <div
+                    className="modal fade"
+                    id="exampleModal"
+                    tabIndex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h1
+                            className="modal-title fs-5"
+                            id="exampleModalLabel"
+                          >
+                            Hapus Data
+                          </h1>
+                          <button
+                            type="button"
+                            className="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div className="modal-body">Apakah anda yakin?</div>
+                        <div className="modal-footer">
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            &laquo;
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              dataDeleted(maha.id);
+                              router.push(`/k/mahasiswa/`);
+                            }}
+                            className="btn btn-danger"
+                          >
+                            <IconTrash />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -169,8 +223,8 @@ const Mahasiswa = () => {
         </table>
 
         {loading && (
-          <div class="spinner-border text-danger" role="status">
-            <span class="visually-hidden">Loading Mas Bro...</span>
+          <div className="spinner-border text-danger" role="status">
+            <span className="visually-hidden">Loading Mas Bro...</span>
           </div>
         )}
         <div className=" mt-3">
@@ -183,7 +237,7 @@ const Mahasiswa = () => {
                 }}
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
-                Previous
+                <span aria-hidden="true">&laquo;</span>
               </button>
             </li>
             {renderPageNumbers}
@@ -199,7 +253,7 @@ const Mahasiswa = () => {
                 style={{ marginLeft: "5px" }}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
-                Next
+                <span aria-hidden="true">&raquo;</span>
               </button>
             </li>
           </ul>

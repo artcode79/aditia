@@ -3,15 +3,38 @@
  *
  * @format
  */
-
+"use client";
 import "../k/main.css";
-import { signIn } from "next-auth/react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { IconBrandGoogle } from "@tabler/icons-react";
-
-import React from "react";
 import Link from "next/link";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(true);
+
+  const { login, signup, currentUser } = useAuth();
+  console.log(currentUser);
+
+  async function submitHandler() {
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
+    if (isLoggingIn) {
+      try {
+        await login(email, password);
+      } catch (err) {
+        setError("Incorrect email or password");
+      }
+      return;
+    }
+    await signup(email, password);
+  }
+
   return (
     <>
       <section className="vh-100 gradient-custom">

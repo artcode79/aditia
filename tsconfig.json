@@ -34,7 +34,9 @@
     "app/k/mahasiswa/page.tsx",
     "app/k/mahasiswa/add/page.jsx",
     "app/k/mahasiswa/show/[id]/page.jsx",
-    "app/k/mahasiswa/show/[id].jsx"
+    "app/k/mahasiswa/show/[id].jsx",
+    "app/login/page.jsx",
+    "app/k/layout.jsx"
   ],
   "exclude": ["node_modules"]
 }

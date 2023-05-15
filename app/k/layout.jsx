@@ -3,7 +3,7 @@
 import React from "react";
 import Atas from "../components/Atas";
 
-export default function layout({ children }: { children: React.ReactNode }) {
+export default function layout({ children }) {
   return (
     <>
       <Atas></Atas>
