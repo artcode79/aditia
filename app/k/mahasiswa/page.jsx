@@ -69,7 +69,15 @@ const Mahasiswa = () => {
   ));
 
   const dataDeleted = async (id) => {
-    await deleteData(id);
+    if (condition) {
+      try {
+        await deleteData(id);
+        router.push("/k/dashboard");
+        console.log("data terhapus", id);
+      } catch (error) {
+        console.log("data tidak terhapus", error);
+      }
+    }
   };
 
   return (
@@ -206,7 +214,6 @@ const Mahasiswa = () => {
                             type="button"
                             onClick={() => {
                               dataDeleted(maha.id);
-                              router.push(`/k/mahasiswa/`);
                             }}
                             className="btn btn-danger"
                           >

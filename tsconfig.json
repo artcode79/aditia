@@ -36,7 +36,8 @@
     "app/k/mahasiswa/show/[id]/page.jsx",
     "app/k/mahasiswa/show/[id].jsx",
     "app/login/page.jsx",
-    "app/k/layout.jsx"
+    "app/k/layout.jsx",
+    "app/api/auth/[...nextauth]/route.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -6,7 +6,7 @@
 "use client";
 import "../k/main.css";
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { signIn } from "next-auth/react";
 import { IconBrandGoogle } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -15,25 +15,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isLoggingIn, setIsLoggingIn] = useState(true);
-
-  const { login, signup, currentUser } = useAuth();
-  console.log(currentUser);
-
-  async function submitHandler() {
-    if (!email || !password) {
-      setError("Please enter email and password");
-      return;
-    }
-    if (isLoggingIn) {
-      try {
-        await login(email, password);
-      } catch (err) {
-        setError("Incorrect email or password");
-      }
-      return;
-    }
-    await signup(email, password);
-  }
 
   return (
     <>

@@ -3,17 +3,21 @@
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 
+const Meta = {
+  title: "Next.js Starter Kit",
+  description: "Next.js Starter Kit",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>SIakAd</title>
-        <meta
-          name="description"
-          content="ini adalah Sistem Informasi Akademik"
-        />
+        <title>SiAkAD</title>
+        <meta name="author" content="Mateusz Kowalski" />
+        <meta name="robots" content="follow, index" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-
       <body className="bg-light">
         <main>{children}</main>
 

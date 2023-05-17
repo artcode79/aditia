@@ -2,6 +2,7 @@
 
 import React from "react";
 import Atas from "../components/Atas";
+import Providers from "../components/auth/Provider";
 
 export default function layout({ children }) {
   return (
@@ -56,7 +57,7 @@ export default function layout({ children }) {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    <span className="nav-link-title">Link 3</span>
+                    <span className="nav-link-title">Data keuangan</span>
                   </a>
                 </li>
               </ul>
@@ -69,7 +70,7 @@ export default function layout({ children }) {
               <div className="row g-2 align-items-center">
                 <div className="col">
                   <header className="mt-4 "></header>
-                  <h2 className="page-title">Vertical layout</h2>
+                  <h2 className="page-title"></h2>
                 </div>
               </div>
             </div>
@@ -79,16 +80,6 @@ export default function layout({ children }) {
           </div>
         </div>
       </div>
-      <script
-        async
-        src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"
-      ></script>
-
-      <script src="https://code.jquery.com/jquery-3.5.1.js" async></script>
-      <script
-        src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"
-        async
-      ></script>
     </>
   );
 }
